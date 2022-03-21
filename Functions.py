@@ -97,3 +97,24 @@ def finalprediction(model, df_train, df_test, y, df_submission):
     df_submission[y] = y_pred
     df_submission[y] = df_submission[y].apply(lambda x: finalscoretranslation(x))
     df_submission.to_csv('Data/submission.csv', index=True)
+
+
+def cabinrbinding(value):
+    if value == "None":
+        return 'None'
+    else:
+        value = int(value)
+        if value < 250:
+            return "A"
+        if value >= 250 and value < 500:
+            return "B"
+        if value >= 500 and value < 750:
+            return "C"
+        if value >= 750 and value < 1000:
+            return "D"
+        if value >= 1000 and value < 1250:
+            return "E"
+        if value >= 1250 and value < 1500:
+            return "F"
+        if value >= 1500:
+            return "G"

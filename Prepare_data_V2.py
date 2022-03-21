@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 
 pd.set_option('display.max_columns', 80)
 pd.set_option('display.max_rows', 200)
@@ -9,7 +10,7 @@ df_all = pd.read_csv('Data/df_all_V2', index_col=0)
 
 # Cabin, Group - Dropped due to too big diversity
 
-df_all.drop(columns=['Cabin', 'Group'], inplace=True)
+df_all.drop(columns=['Cabin', 'CabinNr', 'Group'], inplace=True)
 
 # DestHome
 
@@ -126,15 +127,27 @@ group = df_all.groupby(['SurnameGroupSize'])['Transported'].mean().sort_values(a
 plt.clf()
 group.plot(kind='bar')
 print(group)
-plt.show()
+# plt.show()
 
 mapping = {8: 1, 7: 2, 1: 3, 2: 4, 3: 5, 4: 6, 5: 7, 6: 8}
 df_all['SurnameGroupSize'] = df_all['SurnameGroupSize'].map(mapping).astype(int)
 
+# CabinNrBind
+
+group = df_all.groupby(['CabinNrBind'])['Transported'].mean().sort_values(ascending=False)
+plt.clf()
+group.plot(kind='bar')
+print(group)
+# plt.show()
+print(df_all.info())
+
+mapping = {"G": 1, "F": 2, "B": 3, "None": 4, "C": 5, "A": 6, "E": 7, "D": 8}
+df_all['CabinNrBind'] = df_all['CabinNrBind'].map(mapping).astype(int)
+
 
 # Dropping unnecessary needed columns
 
-df_all.drop(columns=['PassengerId', 'Surname', 'DestHomeSleep', 'Age'], inplace=True)
+df_all.drop(columns=['PassengerId', 'Surname', 'DestHomeSleep'], inplace=True)
 
 print(df_all.info())
 # print(df_all.corr())

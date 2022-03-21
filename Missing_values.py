@@ -13,7 +13,6 @@ print(df_all.info())
 print(df_all.corr())
 print(df_all.describe())
 
-
 # HomePlanet - People in the same group and cabin are more likely from the same planet
 
 g_hom_dest = df_all.groupby(['Destination', 'HomePlanet'])['PassengerId'].count().unstack()
@@ -101,7 +100,6 @@ df_all['Surname'] = df_all['Surname'].fillna('Unknown')
 
 
 df_all['Age'] = df_all['Age'].fillna(df_all.groupby('CabinA')['Age'].transform('mean'))
-
 
 # Vip
 g_hom_dest = df_all.groupby(['VIP', 'Destination'])['PassengerId'].count().unstack()

@@ -1,8 +1,9 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+from Functions import *
 
 pd.set_option('display.max_columns', 80)
-pd.set_option('display.max_rows', 200)
+pd.set_option('display.max_rows', 100)
 
 df_all = pd.read_csv('Data/df_all_V1', index_col=0)
 
@@ -42,5 +43,24 @@ df_group.rename(columns={'PassengerId': 'GroupCount'}, inplace=True)
 df_all = df_all.merge(df_group, on='Group')
 
 print(df_all.info())
+# print(df_all['CabinNr'].value_counts().tail(100))
+
+
+# CabinNrBind
+
+df_all['CabinNrBind'] = df_all['CabinNr'].apply(lambda x: cabinrbinding(x))
+
+print(df_all['CabinNrBind'].value_counts())
+
+# IsAloneGroup
+df_all['IsAloneGroup'] = np.where(df_all['GroupCount'] > 1, 0, 1)
+
+# IsAloneSurname
+df_all['IsAloneSurname'] = np.where(df_all['SurnameGroupSize'] > 1, 0, 1)
+
+
+
+print(df_all.info())
+
 
 df_all.to_csv('Data/df_all_V2', index=True)
